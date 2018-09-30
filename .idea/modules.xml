@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/osa-common/osa-common.iml" filepath="$PROJECT_DIR$/osa-common/osa-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/osa-core/osa-core.iml" filepath="$PROJECT_DIR$/osa-core/osa-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/osa-parent.iml" filepath="$PROJECT_DIR$/osa-parent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/osa-system/osa-system.iml" filepath="$PROJECT_DIR$/osa-system/osa-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/osa-web/osa-web.iml" filepath="$PROJECT_DIR$/osa-web/osa-web.iml" />
+    </modules>
+  </component>
+</project>

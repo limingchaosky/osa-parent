@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="osa-common" />
+        <module name="osa-core" />
+        <module name="osa-system" />
+        <module name="osa-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="osa-common" target="1.8" />
+      <module name="osa-core" target="1.8" />
+      <module name="osa-parent" target="1.8" />
+      <module name="osa-system" target="1.8" />
+      <module name="osa-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./js/resource.js" type="text/javascript"></script>
+    <title>登录</title>
+</head>
+
+<body>
+    <!--<div id="app" v-cloak>
+        <gd-login :config="loginConfig"></gd-login>
+    </div>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                loginConfig: [
+                    {
+                        name: 'tsa',
+                        api: './data/login_success.json',
+                        logo: './images/login_logo.png',
+                        cover: './images/tsa_cover.jpg',
+                        href: '/login',
+                        isDefault: true,
+                        encrypt: function (data) {
+                            return data;
+                        },
+                        success: function (data) {//数据返回返后回调，可用于写入cookie
+                            log(data)
+                        },
+                        error:function (xhr, errorText, errorStatus){//数据error 返后的回调，可用于写入判断错误信息 提示中文信息等
+                            log(xhr, errorText, errorStatus);
+                        }
+                    },
+                    {
+                        name: 'drs',
+                        api: './data/login_error.json',
+                        logo: './images/login_logo.png',
+                        cover: './images/oms_cover.jpg',
+                        href: '/',
+                    },
+                    {
+                        name: 'oms',
+                        api: './data/login_success.json',
+                        logo: './images/login_logo.png',
+                        cover: './images/tsa_cover.jpg',
+                        href: '/'
+                    }
+                ]
+            }
+        });
+    </script>-->
+
+    <form  class="form-signin" action="/osa/login" method="post">
+        <h2 class="form-signin-heading">用户登录</h2>
+        <table>
+            <tr>
+                <td>用户名:</td>
+                <td><input type="text" name="username"  class="form-control"  placeholder="请输入用户名"/></td>
+            </tr>
+            <tr>
+                <td>密码:</td>
+                <td><input type="password" name="password"  class="form-control" placeholder="请输入密码" /></td>
+            </tr>
+            <tr>
+                <td><input type="hidden" th:name="${_csrf.parameterName}" name="${_csrf.parameterName}" th:value="${_csrf.token}" value="${_csrf.token}"/></td>
+            </tr>
+            <tr>
+
+                <td colspan="2">
+                    <button type="submit"  class="btn btn-lg btn-primary btn-block" >登录</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+
+</html>
