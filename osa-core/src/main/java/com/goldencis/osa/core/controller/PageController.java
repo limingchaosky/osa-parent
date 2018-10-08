@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 /**
  * Created by limingchao on 2018/9/25.
  */
-@Api(value = "页面跳转管理")
+@Api(tags = "页面跳转管理")
 @Controller
 public class PageController {
 

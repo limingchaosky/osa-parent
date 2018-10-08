@@ -6,16 +6,16 @@
     <resultMap id="BaseResultMap" type="com.goldencis.osa.core.entity.Navigation">
         <id column="id" property="id" />
         <result column="compositor" property="compositor" />
-        <result column="title" property="title" />
+        <result column="name" property="name" />
         <result column="url" property="url" />
         <result column="parent_id" property="parentId" />
-        <result column="icon_url" property="iconUrl" />
-        <result column="n_level" property="nLevel" />
+        <result column="icon" property="icon" />
+        <result column="level" property="level" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, compositor, title, url, parent_id, icon_url, n_level
+        id, compositor, name, url, parent_id, icon, level
     </sql>
 
 </mapper>

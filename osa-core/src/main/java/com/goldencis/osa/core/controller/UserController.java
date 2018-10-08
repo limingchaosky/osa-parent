@@ -29,7 +29,7 @@ import java.util.UUID;
  * @author limingchao
  * @since 2018-09-27
  */
-@Api(value = "用户信息管理")
+@Api(tags = "用户信息管理")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -56,9 +56,9 @@ public class UserController {
 
     @ApiOperation("获取用户分页列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "start", value = "起始条数", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "length", value = "每页条数", paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "orderType", value = "排序类型", paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "start", value = "起始条数", dataType = "Integer"),
+            @ApiImplicitParam(name = "length", value = "每页条数", dataType = "Integer"),
+            @ApiImplicitParam(name = "orderType", value = "排序类型", dataType = "String")
     })
     @GetMapping(value = "/getUsersInPage")
     public ResultMsg getUsersInPage(Map map) {
