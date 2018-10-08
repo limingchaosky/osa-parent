@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="osa-web:war">
-    <output-path>$PROJECT_DIR$/osa-web/target</output-path>
-    <root id="archive" name="osa.war">
-      <element id="artifact" artifact-name="osa-web:war exploded" />
-    </root>
-  </artifact>
-</component>
