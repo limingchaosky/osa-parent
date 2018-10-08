@@ -7,6 +7,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goldencis.osa.common.entity.ResultMsg;
 import com.goldencis.osa.core.entity.User;
 import com.goldencis.osa.core.service.IUserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -50,6 +53,11 @@ public class UserController {
         }
     }
 
+    @ApiOperation("获取用户分页信息")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "moduleName", value = "模块名称", required = true, dataType = "String"),
+//            @ApiImplicitParam(name = "bizChName", value = "业务名称", required = true, dataType = "String"),
+//    })
     @GetMapping(value = "/getUsersInPage")
     public ResultMsg getUsersInPage() {
         try {
