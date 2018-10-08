@@ -7,19 +7,18 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.goldencis.osa.common.entity.ResultMsg;
 import com.goldencis.osa.core.entity.User;
 import com.goldencis.osa.core.service.IUserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -30,6 +29,7 @@ import java.util.UUID;
  * @author limingchao
  * @since 2018-09-27
  */
+@Api(value = "用户信息管理")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -39,12 +39,13 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @ApiOperation(value = "通过guid获取用户信息")
+    @ApiImplicitParam(name = "guid", value = "用户guid", required = true, paramType = "path", dataType = "String")
     @Cacheable(value = "users", key = "#guid")
     @GetMapping(value = "/user/{guid}")
     public ResultMsg findUserByGuid(@PathVariable("guid") String guid) {
 
         try {
-            logger.info("execute method findUserByGuid...");
             User user = userService.findUserByGuid(guid);
             return ResultMsg.ok(user);
         } catch (Exception e) {
@@ -53,16 +54,16 @@ public class UserController {
         }
     }
 
-    @ApiOperation("获取用户分页信息")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "moduleName", value = "模块名称", required = true, dataType = "String"),
-//            @ApiImplicitParam(name = "bizChName", value = "业务名称", required = true, dataType = "String"),
-//    })
+    @ApiOperation("获取用户分页列表")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "start", value = "起始条数", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "length", value = "每页条数", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "orderType", value = "排序类型", paramType = "query", dataType = "String")
+    })
     @GetMapping(value = "/getUsersInPage")
-    public ResultMsg getUsersInPage() {
+    public ResultMsg getUsersInPage(Map map) {
         try {
             logger.info("execute method getUsersInPage...");
-//            logger.info("<<<<<<<<<<<<<<========================>>>>>>>>>>>>>>>>>>>>...");
             QueryWrapper<User> wrapper = new QueryWrapper<>();
             wrapper.eq("guid", "1");
             IPage<User> page = new Page<>();
@@ -76,7 +77,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/save")
+    @PostMapping(value = "/save")
     public ResultMsg save() {
         try {
             List<User> userList = new ArrayList<>();
