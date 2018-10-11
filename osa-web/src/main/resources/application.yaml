@@ -13,6 +13,17 @@ spring:
   cache:
     caffeine:
       spec: initialCapacity=100,maximumSize=1000,expireAfterAccess=600s
+  redis:
+    database: 0
+    host: 10.10.0.131
+    port: 38019
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 200
+        max-idle: 20
+        min-idle: 5
+        max-wait: 10000
 
 server:
   port: 80
