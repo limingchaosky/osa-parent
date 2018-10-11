@@ -18,6 +18,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * <p>
@@ -82,12 +83,12 @@ public class UserController {
 
     @ApiOperation(value = "新增用户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", dataType = "String"),
-            @ApiImplicitParam(name = "password", value = "密码", dataType = "Integer"),
-            @ApiImplicitParam(name = "name", value = "真实姓名", dataType = "String"),
-            @ApiImplicitParam(name = "email", value = "email", dataType = "String"),
-            @ApiImplicitParam(name = "phone", value = "电话号码", dataType = "String"),
-            @ApiImplicitParam(name = "status", value = "账号状态", dataType = "String"),
+            @ApiImplicitParam(name = "username", value = "用户名", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "name", value = "真实姓名", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "email", value = "email", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "phone", value = "电话号码", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "status", value = "账号状态", paramType = "query", dataType = "String"),
     })
     @PostMapping(value = "/user")
     public ResultMsg save(User user) {
@@ -99,7 +100,7 @@ public class UserController {
                 return ResultMsg.build(ConstantsDto.CONST_FALSE, "用户名重复！");
             }
 
-            userService.save(user);
+            userService.saveUser(user);
 
             return ResultMsg.ok();
         } catch (Exception e) {
@@ -110,12 +111,13 @@ public class UserController {
 
     @ApiOperation(value = "编辑用户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "username", value = "用户名", dataType = "String"),
-            @ApiImplicitParam(name = "password", value = "密码", dataType = "Integer"),
-            @ApiImplicitParam(name = "name", value = "真实姓名", dataType = "String"),
-            @ApiImplicitParam(name = "email", value = "email", dataType = "String"),
-            @ApiImplicitParam(name = "phone", value = "电话号码", dataType = "String"),
-            @ApiImplicitParam(name = "status", value = "账号状态", dataType = "String"),
+            @ApiImplicitParam(name = "guid", value = "用户guid", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "username", value = "用户名", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "name", value = "真实姓名", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "email", value = "email", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "phone", value = "电话号码", paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "status", value = "账号状态", paramType = "query", dataType = "String"),
     })
     @PutMapping(value = "/user")
     public ResultMsg edit(User user) {
@@ -127,7 +129,7 @@ public class UserController {
                 return ResultMsg.build(ConstantsDto.CONST_FALSE, "用户名重复！");
             }
 
-            userService.updateById(user);
+            userService.updateUserByGuid(user);
             return ResultMsg.ok();
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,8 +137,12 @@ public class UserController {
         }
     }
 
-    public ResultMsg delete() {
+    @ApiOperation(value = "删除用户")
+    @ApiImplicitParam(name = "guid", value = "用户guid", required = true, paramType = "path", dataType = "String")
+    @DeleteMapping(value = "/user/{guid}")
+    public ResultMsg delete(@PathVariable(value = "guid") String guid) {
         try {
+            userService.deleteUserByGuid(guid);
             return ResultMsg.ok();
         } catch (Exception e) {
             e.printStackTrace();

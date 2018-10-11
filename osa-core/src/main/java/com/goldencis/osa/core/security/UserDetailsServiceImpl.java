@@ -37,10 +37,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         com.goldencis.osa.core.entity.User user = userService.getOne(queryWrapper);
 
         if (user == null) {
+            logger.info("此用户名不存在：" + username);
             throw new UsernameNotFoundException("用户名或密码不正确！");
         }
 
         if (user.getStatus() != ConstantsDto.ACCOUNT_STATUS_ENABLE) {
+            logger.info("此用户已经被锁定：" + username);
             throw new LockedException("用户已被锁定！");
         }
 

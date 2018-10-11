@@ -37,4 +37,10 @@ public class PageController {
     public String topLeftIndex() {
         return "common/topLeft";
     }
+
+    @ApiOperation(value = "策略页面")
+    @GetMapping(value = "/strategy/index")
+    public String strategyIndex() {
+        return "strategy/index";
+    }
 }

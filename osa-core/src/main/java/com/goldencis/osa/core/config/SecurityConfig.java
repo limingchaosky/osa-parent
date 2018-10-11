@@ -58,7 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl("/login?logout")  //退出登录后的默认网址是”/login?logout”
                 .permitAll()
-                .invalidateHttpSession(true);       //使session失效
+                .invalidateHttpSession(true)       //使session失效
+                .and()
+            .csrf()                             //关闭csrf防护
+                .disable();
     }
 
     @Override

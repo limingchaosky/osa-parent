@@ -31,8 +31,6 @@ public interface IUserService extends IService<User> {
      */
     User getUserByUserName(String username);
 
-    void batchSave(List<User> userList) throws Exception;
-
     /**
      * 将请求中的查询参数转化为包装类
      * @param params 请求中的参数Map
@@ -46,4 +44,22 @@ public interface IUserService extends IService<User> {
      * @return 是否可用，true为该账户名可用，false为该账户名不可用。
      */
     boolean checkUserNameDuplicate(User user);
+
+    /**
+     * 新建用户
+     * @param user 用户对象
+     */
+    void saveUser(User user);
+
+    /**
+     * 根据guid编辑用户
+     * @param user 用户对象
+     */
+    void updateUserByGuid(User user);
+
+    /**
+     * 根据用户guid删除用户
+     * @param guid 用户guid
+     */
+    void deleteUserByGuid(String guid);
 }

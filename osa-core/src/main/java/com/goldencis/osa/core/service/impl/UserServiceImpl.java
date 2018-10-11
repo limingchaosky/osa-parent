@@ -2,6 +2,7 @@ package com.goldencis.osa.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.goldencis.osa.core.constants.ConstantsDto;
 import com.goldencis.osa.core.entity.User;
 import com.goldencis.osa.core.mapper.UserMapper;
 import com.goldencis.osa.core.service.IUserService;
@@ -12,8 +13,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.function.Function;
 
 /**
@@ -38,19 +42,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public User getUserByUserName(String username) {
-        User user = userMapper.selectOne(new QueryWrapper<User>().ge("username", username));
+        User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
         return user;
-    }
-
-    @Transactional(propagation = Propagation.REQUIRED)
-    @Override
-    public void batchSave(List<User> userList) throws Exception {
-        for (User user : userList) {
-            if ("CCC".equals(user.getUsername())) {
-                throw new RuntimeException();
-            }
-            userMapper.insert(user);
-        }
     }
 
     @Override
@@ -66,9 +59,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         //增加时间条件
         QueryUtils.setQeryTimeByParamsMap(wrapper, params, "create_time");
 
-
-
-        QueryUtils.setQeryOrderByParamsMap(wrapper, params);
+        //增加排序条件，默认按创建时间的倒序排列
+        QueryUtils.setQeryOrderByParamsMap(wrapper, params, ConstantsDto.ORDER_TYPE_DESC, "create_time");
         return wrapper;
     }
 
@@ -87,5 +79,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return false;
         }
         return true;
+    }
+
+    @Override
+    public void saveUser(User user) {
+        user.setGuid(UUID.randomUUID().toString());
+        user.setVisible(ConstantsDto.CONST_TRUE);
+        user.setCreateTime(LocalDateTime.now());
+
+        this.save(user);
+    }
+
+    @Override
+    public void updateUserByGuid(User user) {
+
+        this.updateById(user);
+    }
+
+    @Override
+    public void deleteUserByGuid(String guid) {
+        this.removeById(guid);
     }
 }

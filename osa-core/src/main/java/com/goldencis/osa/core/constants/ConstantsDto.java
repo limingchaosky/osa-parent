@@ -11,10 +11,14 @@ public class ConstantsDto {
 
     public static final Integer RESPONSE_ERROR = 500;
 
-
     //账户状态
     public static final Integer ACCOUNT_STATUS_ENABLE = 11;
 
+    //资源开放相关的资源文件配置
     public static final String SECURITY_FILE_PATH = "classpath:static/dataFiles/security.xml";
     public static final String SECURITY_NONE = "/security/http/@pattern";
+
+    //排序规则，升序或降序
+    public static final String ORDER_TYPE_ASC = "asc";
+    public static final String ORDER_TYPE_DESC = "desc";
 }
