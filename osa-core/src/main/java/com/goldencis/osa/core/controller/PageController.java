@@ -31,4 +31,10 @@ public class PageController {
     public String userIndex() {
         return "user/userList";
     }
+
+    @ApiOperation(value = "通用导航栏页面")
+    @GetMapping(value = "/common/topLeft")
+    public String topLeftIndex() {
+        return "common/topLeft";
+    }
 }
