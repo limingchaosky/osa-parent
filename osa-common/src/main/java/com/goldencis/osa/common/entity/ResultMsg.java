@@ -149,4 +149,8 @@ public class ResultMsg {
             return null;
         }
     }
+
+    public static ObjectMapper getMAPPER() {
+        return MAPPER;
+    }
 }

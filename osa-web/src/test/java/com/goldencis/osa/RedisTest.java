@@ -5,6 +5,7 @@ package com.goldencis.osa;
  */
 
 import com.goldencis.osa.common.utils.RedisUtil;
+import com.goldencis.osa.core.entity.User;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,6 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
@@ -26,7 +30,7 @@ public class RedisTest {
     @Test
     public void test() throws Exception {
         // 保存字符串
-        stringRedisTemplate.opsForValue().set("aaa", "111");
+        stringRedisTemplate.opsForValue().set("k1:k2:k3", "111");
         Assert.assertEquals("111", stringRedisTemplate.opsForValue().get("aaa"));
     }
 
@@ -46,5 +50,18 @@ public class RedisTest {
     public void expireTest() {
         redisUtil.expire("aaa", 20);
         redisUtil.set("bbb", "222", 20);
+    }
+
+    @Test
+    public void objectTest() {
+        User user = new User();
+        user.setGuid(UUID.randomUUID().toString());
+        user.setUsername("li");
+        user.setName("李");
+        user.setCreateTime(LocalDateTime.now());
+        user.setDepartment(1);
+        redisUtil.set("user", user);
+        Object userRedis = redisUtil.get("user");
+        System.out.println(userRedis.toString());
     }
 }
