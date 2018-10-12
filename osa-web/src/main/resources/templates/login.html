@@ -58,6 +58,7 @@
     <form  class="form-signin" action="/osa/login" method="post">
         <h2 class="form-signin-heading">用户登录</h2>
         <table>
+            <tr>${contextPath}</tr>
             <tr>
                 <td>用户名:</td>
                 <td><input type="text" name="username"  class="form-control"  placeholder="请输入用户名"/></td>
@@ -66,9 +67,9 @@
                 <td>密码:</td>
                 <td><input type="password" name="password"  class="form-control" placeholder="请输入密码" /></td>
             </tr>
-            <tr>
+            <!--<tr>
                 <td><input type="hidden" th:name="${_csrf.parameterName}" name="${_csrf.parameterName}" th:value="${_csrf.token}" value="${_csrf.token}"/></td>
-            </tr>
+            </tr>-->
             <tr>
 
                 <td colspan="2">
@@ -77,6 +78,28 @@
             </tr>
         </table>
     </form>
+    <button id="test_btn">submit test</button>
 </body>
+<script src="./js/resource.js" th:src="${#request.contextPath}"></script>
+<script src="./js/resource.js" th:src="@{/js/resource.js}"></script>
+<script>
+    $("#test_btn").click(function () {
+        var params = {};
+        params.start = 0;
+        params.length = 10;
+        params.orderType = 'desc';
+        $.ajax({
+            type: "GET",
+            url: "user/getUsersInPage",
+//            data: JSON.stringify(params),
+            data: {start:0,length:10,orderType:'desc'},
+            dataType: "json",
+            contentType: 'application/json',
+            success: function(data){
+                console.log(data);
+            }
+        });
+    });
 
+</script>
 </html>
