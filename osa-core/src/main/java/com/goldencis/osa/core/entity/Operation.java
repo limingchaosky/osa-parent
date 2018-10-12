@@ -22,7 +22,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_operation")
-public class Operation extends Model<Operation> {
+public class Operation extends Model<Operation> implements Resource{
 
     private static final long serialVersionUID = 1L;
 

@@ -25,7 +25,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("t_navigation")
-public class Navigation extends Model<Navigation> {
+public class Navigation extends Model<Navigation> implements Resource{
 
     private static final long serialVersionUID = 1L;
 
