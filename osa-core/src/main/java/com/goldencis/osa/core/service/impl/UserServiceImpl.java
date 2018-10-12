@@ -9,6 +9,7 @@ import com.goldencis.osa.core.service.IUserService;
 import com.goldencis.osa.core.utils.QueryUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -34,13 +35,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private UserMapper userMapper;
 
-    @Transactional
     @Override
+    @Transactional(readOnly = true)
     public User findUserByGuid(String guid) {
         return userMapper.findUserByGuid(guid);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getUserByUserName(String username) {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
         return user;
@@ -65,6 +67,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    @Transactional(readOnly = true)
     public boolean checkUserNameDuplicate(User user) {
 
         User preUser = this.getUserByUserName(user.getUsername());
@@ -82,6 +85,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public void saveUser(User user) {
         user.setGuid(UUID.randomUUID().toString());
         user.setVisible(ConstantsDto.CONST_TRUE);

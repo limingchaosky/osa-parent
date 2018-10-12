@@ -13,4 +13,16 @@ import com.goldencis.osa.core.entity.Role;
  */
 public interface IRoleService extends IService<Role> {
 
+    /**
+     * 根据role的guid查找角色
+     * @param guid 角色guid
+     * @return 角色对象
+     */
+    Role findRoleByGuid(String guid);
+
+    /**
+     * 新增角色接口
+     * @param role 角色对象
+     */
+    void saveRole(Role role);
 }
