@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.List;
+
 /**
  * Created by limingchao on 2018/10/12.
  */
@@ -24,6 +26,11 @@ public class AutoWireTest {
         System.out.println(permissionService);
         Resource resourceByResourceTypeAndId = permissionService.findResourceByResourceTypeAndId(1, 1);
         System.out.println(resourceByResourceTypeAndId);
+
+        List<? extends Resource> resourceList = permissionService.findResourceListByResourceType(1);
+        for (Resource resource : resourceList) {
+            System.out.println(resource);
+        }
     }
 
     @Test

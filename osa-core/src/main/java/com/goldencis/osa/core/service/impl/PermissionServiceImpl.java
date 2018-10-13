@@ -10,6 +10,7 @@ import com.goldencis.osa.core.service.IPermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,9 +32,14 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
 
     @Override
     public Resource findResourceByResourceTypeAndId(Integer resourceType, Integer resourceId) {
-        BaseMapper<? extends Resource> resourceMapper = resourceMapperMap.get(resourceType);
-        Resource resource = resourceMapper.selectById(resourceId);
+        Resource resource = this.getResourceMapper(resourceType).selectById(resourceId);
         return resource;
+    }
+
+    @Override
+    public List<? extends Resource> findResourceListByResourceType(Integer resourceType) {
+        List<? extends Resource> resourceList = this.getResourceMapper(resourceType).selectList(new QueryWrapper<>());
+        return resourceList;
     }
 
     @Override
@@ -47,5 +53,14 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         Resource resource = this.findResourceByPermission(permission);
         permission.setResource(resource);
         return permission;
+    }
+
+    /**
+     * 根据资源类型，获取对应的mapper
+     * @param resourceType 资源类型
+     * @return 对应的mapper
+     */
+    protected BaseMapper<? extends Resource> getResourceMapper(Integer resourceType) {
+        return resourceMapperMap.get(resourceType);
     }
 }

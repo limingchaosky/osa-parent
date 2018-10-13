@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.goldencis.osa.core.entity.Permission;
 import com.goldencis.osa.core.entity.Resource;
 
+import java.util.List;
+
 /**
  * <p>
  * 访问资源权限表 服务类
@@ -21,6 +23,13 @@ public interface IPermissionService extends IService<Permission> {
      * @return 资源对象
      */
     Resource findResourceByResourceTypeAndId(Integer resourceType, Integer resourceId);
+
+    /**
+     * 根据资源类型查找对应的全部资源集合
+     * @param resourceType 资源类型
+     * @return 全部资源集合
+     */
+    List<? extends Resource> findResourceListByResourceType(Integer resourceType);
 
     /**
      * 根据权限查找对应的资源
