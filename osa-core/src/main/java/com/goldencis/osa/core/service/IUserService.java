@@ -29,7 +29,7 @@ public interface IUserService extends IService<User> {
      * @param username 用户名
      * @return 用户对象
      */
-    User getUserByUserName(String username);
+    User findUserByUserName(String username);
 
     /**
      * 将请求中的查询参数转化为包装类
@@ -62,4 +62,10 @@ public interface IUserService extends IService<User> {
      * @param guid 用户guid
      */
     void deleteUserByGuid(String guid);
+
+    /**
+     * 获取当前登录用户
+     * @return
+     */
+    User getCurrentUser();
 }

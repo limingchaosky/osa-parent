@@ -7,6 +7,7 @@ import com.goldencis.osa.core.entity.User;
 import com.goldencis.osa.core.mapper.UserMapper;
 import com.goldencis.osa.core.service.IUserService;
 import com.goldencis.osa.core.utils.QueryUtils;
+import com.goldencis.osa.core.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -15,11 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Function;
 
 /**
  * <p>
@@ -43,7 +41,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     @Transactional(readOnly = true)
-    public User getUserByUserName(String username) {
+    public User findUserByUserName(String username) {
         User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
         return user;
     }
@@ -70,7 +68,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Transactional(readOnly = true)
     public boolean checkUserNameDuplicate(User user) {
 
-        User preUser = this.getUserByUserName(user.getUsername());
+        User preUser = this.findUserByUserName(user.getUsername());
 
         //判断数据库是否有该记录，不存在即可用，返回true，如果有继续判断
         if (preUser != null) {
@@ -95,13 +93,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public void updateUserByGuid(User user) {
 
         this.updateById(user);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
     public void deleteUserByGuid(String guid) {
         this.removeById(guid);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User getCurrentUser() {
+        String username = SecurityUtils.getCurrentUser();
+        if (!StringUtils.isEmpty(username)) {
+            User user = this.findUserByUserName(username);
+            return user;
+        }
+        return null;
     }
 }

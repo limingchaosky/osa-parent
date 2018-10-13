@@ -2,19 +2,28 @@ package com.goldencis.osa.core.controller;
 
 
 import com.goldencis.osa.common.entity.ResultMsg;
+import com.goldencis.osa.core.constants.ConstantsDto;
 import com.goldencis.osa.core.entity.Permission;
 import com.goldencis.osa.core.entity.Resource;
+import com.goldencis.osa.core.entity.User;
 import com.goldencis.osa.core.service.IPermissionService;
+import com.goldencis.osa.core.service.IUserService;
+import com.goldencis.osa.core.utils.ResourceType;
+import com.goldencis.osa.core.utils.SecurityUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -31,6 +40,9 @@ public class PermissionController {
 
     @Autowired
     private IPermissionService permissionService;
+
+    @Autowired
+    private IUserService userService;
 
     @ApiOperation(value = "根据资源类型和资源id查找对应的资源")
     @ApiImplicitParams({
@@ -65,6 +77,31 @@ public class PermissionController {
             Permission permission = permissionService.findPermissionById(id);
 
             return ResultMsg.ok(permission);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResultMsg.build(500, e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "根据用户查询对应的权限资源集合")
+    @ApiImplicitParam(name = "resourceType", value = "资源类型", paramType = "path", dataType = "Integer")
+    @GetMapping(value = "/findUserPermissions/{resourceType}")
+    public ResultMsg findUserPermissions(@PathVariable(value = "resourceType") Integer resourceType) {
+        try {
+            //获取当前用户
+            User user = userService.getCurrentUser();
+
+            if (user == null) {
+                return ResultMsg.build(ConstantsDto.CONST_FALSE, "当前用户未登录");
+            }
+
+            List<? extends Resource> result = null;
+            if (!StringUtils.isEmpty(resourceType)) {
+                //根据用户和指定资源类型查询对应的权限资源集合
+                result = permissionService.findUserPermissionsByResourceType(user, resourceType);
+            }
+
+            return ResultMsg.ok(result);
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMsg.build(500, e.getMessage());

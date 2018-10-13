@@ -14,4 +14,19 @@
         id, resource_type, resource_id
     </sql>
 
+    <select id="findUserPermissionsByResourceType" resultType="com.goldencis.osa.core.entity.Permission">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM t_permission p
+        WHERE p.id IN (
+                SELECT rp.permission_id
+                FROM t_role_permission rp
+                WHERE rp.role_guid IN (
+                        SELECT ur.role_guid
+                        FROM t_user_role ur
+                        WHERE ur.user_guid = #{user.guid}
+                )
+        ) AND p.resource_type = #{resourceType}
+    </select>
+
 </mapper>

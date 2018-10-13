@@ -3,8 +3,10 @@ package com.goldencis.osa.core.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.goldencis.osa.core.entity.Permission;
 import com.goldencis.osa.core.entity.Resource;
+import com.goldencis.osa.core.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -44,4 +46,19 @@ public interface IPermissionService extends IService<Permission> {
      * @return 权限对象
      */
     Permission findPermissionById(Integer id);
+
+    /**
+     * 根据用户和指定资源类型查询对应的权限资源集合
+     * @param user 查询的用户
+     * @param resourceType 资源类型
+     * @return 权限资源集合
+     */
+    List<? extends Resource> findUserPermissionsByResourceType(User user, Integer resourceType);
+
+    /**
+     * 根据用户查询对应的全部权限资源集合
+     * @param user 查询的用户
+     * @return 权限资源Map，key为资源类型，value为权限资源集合
+     */
+    Map<String,List<? extends Resource>> findUserPermissions(User user);
 }

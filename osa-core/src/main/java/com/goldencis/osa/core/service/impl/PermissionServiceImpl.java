@@ -5,13 +5,17 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goldencis.osa.core.entity.Permission;
 import com.goldencis.osa.core.entity.Resource;
+import com.goldencis.osa.core.entity.User;
 import com.goldencis.osa.core.mapper.PermissionMapper;
 import com.goldencis.osa.core.service.IPermissionService;
+import com.goldencis.osa.core.utils.ResourceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -53,6 +57,29 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
         Resource resource = this.findResourceByPermission(permission);
         permission.setResource(resource);
         return permission;
+    }
+
+    @Override
+    public List<? extends Resource> findUserPermissionsByResourceType(User user, Integer resourceType) {
+        //根据用户和资源类型查询权限集合
+        List<Permission> permissionList = permissionMapper.findUserPermissionsByResourceType(user, resourceType);
+        List<Integer> resourceIdList = permissionList.stream().map(Permission::getResourceId).collect(Collectors.toList());
+
+        //根据资源的类型获取对应Mapper
+        BaseMapper resourceMapper = this.getResourceMapper(resourceType);
+        //查询对应资源类型里，对应资源id集合的资源
+        List<Resource> resourceList = resourceMapper.selectList(new QueryWrapper<Resource>().in("id", resourceIdList));
+        return resourceList;
+    }
+
+    @Override
+    public Map<String, List<? extends Resource>> findUserPermissions(User user) {
+        Map<String, List<? extends Resource>> resourceMap = new HashMap<>();
+        List<ResourceType> resourceTypeList = ResourceType.getResourceTypeList();
+        for (ResourceType resourceType : resourceTypeList) {
+            resourceMap.put(resourceType.getName(), this.findUserPermissionsByResourceType(user, resourceType.getValue()));
+        }
+        return resourceMap;
     }
 
     /**
