@@ -2,7 +2,11 @@ package com.goldencis.osa.core.security;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.goldencis.osa.core.constants.ConstantsDto;
+import com.goldencis.osa.core.entity.Navigation;
+import com.goldencis.osa.core.entity.Resource;
+import com.goldencis.osa.core.service.IPermissionService;
 import com.goldencis.osa.core.service.IUserService;
+import com.goldencis.osa.core.utils.ResourceType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by limingchao on 2018/9/25.
@@ -28,6 +33,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private IPermissionService permissionService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,6 +58,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Collection<GrantedAuthority> auths = new ArrayList<>();
         GrantedAuthority sim = new SimpleGrantedAuthority("ROLE_USER");
         auths.add(sim);
+
+//        //添加页面权限
+//        List<Resource> navigationList = permissionService.findUserPermissionsByResourceType(user, ResourceType.NAVIGATION.getValue());
+//        navigationList.stream().forEach(resource -> {
+//            if (resource instanceof Navigation) {
+//                Navigation navigation = (Navigation) resource;
+//
+//                GrantedAuthority navigationAuthority = new SimpleGrantedAuthority(navigation.getUrl());
+//                auths.add(navigationAuthority);
+//            }
+//        });
+
         User userDetails = new User(username, user.getPassword(), auths);
 
         return userDetails;

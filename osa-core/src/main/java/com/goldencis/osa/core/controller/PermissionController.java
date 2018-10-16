@@ -95,7 +95,7 @@ public class PermissionController {
                 return ResultMsg.build(ConstantsDto.CONST_FALSE, "当前用户未登录");
             }
 
-            List<? extends Resource> result = null;
+            List<Resource> result = null;
             if (!StringUtils.isEmpty(resourceType)) {
                 //根据用户和指定资源类型查询对应的权限资源集合
                 result = permissionService.findUserPermissionsByResourceType(user, resourceType);

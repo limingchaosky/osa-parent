@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .authorizeRequests()
-                .anyRequest().authenticated()   //配置所有请求均需认证
+                .anyRequest().access("@rbacService.hasPermission(request, authentication)")    //配置所有请求均需认证
                 .and()
             .formLogin()
                 .loginPage("/login")            //配置登录页面的url，是/login
@@ -52,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()                    //登录相关均可访问
                 .usernameParameter("username")  //用户名的参数名称
                 .passwordParameter("password")  //密码的参数名称
+//                .defaultSuccessUrl("")
                 .and()
             .logout()
                 //配置登出路径，由于默认打开CSRF，所以将logout改为POST请求。

@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by limingchao on 2018/10/12.
@@ -37,6 +38,11 @@ public class AutoWireTest {
     public void permissionServiceTest() {
         Permission permission = permissionService.findPermissionById(15);
         System.out.println(permission);
+    }
+
+    @Test
+    public void uuidTest() {
+        System.out.println(UUID.randomUUID().toString());
     }
 
 }

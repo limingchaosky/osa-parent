@@ -60,7 +60,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public List<? extends Resource> findUserPermissionsByResourceType(User user, Integer resourceType) {
+    public List<Resource> findUserPermissionsByResourceType(User user, Integer resourceType) {
         //根据用户和资源类型查询权限集合
         List<Permission> permissionList = permissionMapper.findUserPermissionsByResourceType(user, resourceType);
         List<Integer> resourceIdList = permissionList.stream().map(Permission::getResourceId).collect(Collectors.toList());
@@ -73,8 +73,8 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
     }
 
     @Override
-    public Map<String, List<? extends Resource>> findUserPermissions(User user) {
-        Map<String, List<? extends Resource>> resourceMap = new HashMap<>();
+    public Map<String, List<Resource>> findUserPermissions(User user) {
+        Map<String, List<Resource>> resourceMap = new HashMap<>();
         List<ResourceType> resourceTypeList = ResourceType.getResourceTypeList();
         for (ResourceType resourceType : resourceTypeList) {
             resourceMap.put(resourceType.getName(), this.findUserPermissionsByResourceType(user, resourceType.getValue()));

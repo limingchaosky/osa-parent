@@ -53,12 +53,12 @@ public interface IPermissionService extends IService<Permission> {
      * @param resourceType 资源类型
      * @return 权限资源集合
      */
-    List<? extends Resource> findUserPermissionsByResourceType(User user, Integer resourceType);
+    List<Resource> findUserPermissionsByResourceType(User user, Integer resourceType);
 
     /**
      * 根据用户查询对应的全部权限资源集合
      * @param user 查询的用户
      * @return 权限资源Map，key为资源类型，value为权限资源集合
      */
-    Map<String,List<? extends Resource>> findUserPermissions(User user);
+    Map<String, List<Resource>> findUserPermissions(User user);
 }
