@@ -47,6 +47,10 @@ public class RbacServiceImpl implements IRbacService {
 
             //权限的URL集合，用于存放用户所拥有权限的所有URL
             Set<String> urls = new HashSet<>(); // 数据库读取
+
+            //增加默认的首页index权限
+            urls.add("/");
+
             //获取页面权限
             List<Resource> navigationList = permissionService.findUserPermissionsByResourceType(user, ResourceType.NAVIGATION.getValue());
             navigationList.stream().forEach(resource -> urls.add(((Navigation) resource).getUrl()));
@@ -55,7 +59,6 @@ public class RbacServiceImpl implements IRbacService {
             List<Resource> operationList = permissionService.findUserPermissionsByResourceType(user, ResourceType.OPERATION.getValue());
             operationList.stream().forEach(resource -> urls.add(((Operation) resource).getUrlPartten()));
 
-            urls.add("/");
 
             String contextPath = ConfigListener.getConf().get(ConstantsDto.CONTEXT_PATH);
             String requestURI = request.getRequestURI().substring(contextPath.length());

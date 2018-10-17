@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <security>
-	<!-- 配置不过滤的资源（静态资源） -->
-	<http pattern="/login" security="none" />
-	<http pattern="/loginValidate" security="none" />
-	<http pattern="/css/**" security="none" />
-	<http pattern="/js/**" security="none" />
-	<http pattern="/data/**" security="none" />
-	<http pattern="/gdui/**" security="none" />
-	<http pattern="/images/**" security="none" />
+    <!-- 配置不过滤的资源（静态资源） -->
+    <http pattern="/login" security="none"/>
+    <http pattern="/loginValidate" security="none"/>
+    <http pattern="/css/**" security="none"/>
+    <http pattern="/js/**" security="none"/>
+    <http pattern="/data/**" security="none"/>
+    <http pattern="/gdui/**" security="none"/>
+    <http pattern="/images/**" security="none"/>
+    <!-- swagger start-->
+    <http pattern="/swagger*" security="none"/>
+    <http pattern="/swagger*/**" security="none"/>
+    <http pattern="/webjars/**" security="none"/>
+    <http pattern="/v2/**" security="none"/>
+    <!-- swagger end-->
 </security>
