@@ -5,6 +5,7 @@ package com.goldencis.osa;
  */
 
 import com.goldencis.osa.common.utils.RedisUtil;
+import com.goldencis.osa.core.entity.Department;
 import com.goldencis.osa.core.entity.User;
 import org.junit.Assert;
 import org.junit.Test;
@@ -59,7 +60,9 @@ public class RedisTest {
         user.setUsername("li");
         user.setName("李");
         user.setCreateTime(LocalDateTime.now());
-        user.setDepartment(1);
+        Department department = new Department();
+        department.setId(1);
+        user.setDepartment(department);
         redisUtil.set("user", user);
         Object userRedis = redisUtil.get("user");
         System.out.println(userRedis.toString());

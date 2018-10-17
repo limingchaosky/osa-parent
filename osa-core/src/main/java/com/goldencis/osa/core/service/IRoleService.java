@@ -3,6 +3,8 @@ package com.goldencis.osa.core.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.goldencis.osa.core.entity.Role;
 
+import java.util.List;
+
 /**
  * <p>
  * 角色表 服务类
@@ -25,4 +27,11 @@ public interface IRoleService extends IService<Role> {
      * @param role 角色对象
      */
     void saveRole(Role role);
+
+    /**
+     * 根据用户guid查询用户对应的角色集合
+     * @param guid 用户guid
+     * @return 角色集合
+     */
+    List<Role> getRoleListByUserguid(String guid);
 }
