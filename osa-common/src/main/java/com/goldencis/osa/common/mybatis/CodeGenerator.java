@@ -45,8 +45,8 @@ public class CodeGenerator {
 //        String moduleName = scanner("模块名");
         String moduleName = "core";
 //        String tableName = scanner("表名");
-//        String tableName = "t_user";
-        String[] tableName = {"t_usergroup", "t_user_usergroup", "t_role", "t_user_role", "t_usergroup_role", "t_permission", "t_navigation", "t_operation"};
+        String tableName = "t_department";
+//        String[] tableName = {"t_usergroup", "t_user_usergroup", "t_role", "t_user_role", "t_usergroup_role", "t_permission", "t_navigation", "t_operation"};
 
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
@@ -67,7 +67,7 @@ public class CodeGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL)
-           .setUrl("jdbc:mysql://localhost:3306/goldencis_osa?useUnicode=true&useSSL=false&characterEncoding=utf8")
+           .setUrl("jdbc:mysql://10.10.0.131:3306/goldencis_osa?useUnicode=true&useSSL=false&characterEncoding=utf8")
            .setDriverName("com.mysql.jdbc.Driver")
            .setUsername("root")
            .setPassword("goldencis");
