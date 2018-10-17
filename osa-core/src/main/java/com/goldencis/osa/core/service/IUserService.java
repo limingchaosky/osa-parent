@@ -1,10 +1,10 @@
 package com.goldencis.osa.core.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.goldencis.osa.core.entity.User;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -68,4 +68,13 @@ public interface IUserService extends IService<User> {
      * @return
      */
     User getCurrentUser();
+
+    /**
+     * 自定义分页查询
+     *
+     * @param page
+     * @param params 查询查询
+     * @return 分页对象
+     */
+    IPage<User> getUsersInPage(IPage<User> page, Map<String, String> params);
 }

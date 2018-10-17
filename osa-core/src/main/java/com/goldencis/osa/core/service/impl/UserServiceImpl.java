@@ -1,6 +1,7 @@
 package com.goldencis.osa.core.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.goldencis.osa.core.constants.ConstantsDto;
 import com.goldencis.osa.core.entity.User;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -114,5 +116,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return user;
         }
         return null;
+    }
+
+    @Override
+    public IPage<User> getUsersInPage(IPage<User> page, Map<String, String> params) {
+        //为模糊查询的添加增加%%符号
+        QueryUtils.addFuzzyQuerySymbols(params);
+        Map<String, Object> paramMap = QueryUtils.formatPageParams(params);
+
+        //统计用户总数量
+        int total = userMapper.countUsersInPage(paramMap);
+        //带参数的分页查询
+        List<User> userList = userMapper.getUsersInPage(paramMap);
+
+        page.setTotal(total);
+        page.setRecords(userList);
+
+        return page;
     }
 }

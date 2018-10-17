@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.util.StringUtils;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -31,7 +32,7 @@ public class QueryUtils {
     }
 
     /**
-     * 设置模糊查询条件(不能再添加其他查询条件)
+     * 设置模糊查询条件(仅适合查询条件都为模糊查询的情况，不能再添加其他查询条件)
      * @param wrapper 查询的包装类
      * @param params 请求中的参数Map
      * @param columns 需要匹配查询条件的字段
@@ -44,7 +45,6 @@ public class QueryUtils {
             //遍历字段，为其设置查询条件，模糊查询
             for (String column : columns) {
                 wrapper.or().like(column, searchStr);
-
             }
         }
 
@@ -124,5 +124,42 @@ public class QueryUtils {
      */
     public static <T> QueryWrapper<T> setQeryOrderByParamsMap(QueryWrapper<T> wrapper, Map<String, String> params) {
         return setQeryOrderByParamsMap(wrapper, params, null, null);
+    }
+
+    /**
+     * 为模糊查询的添加增加%%符号
+     * @param params 查询map
+     */
+    public static void addFuzzyQuerySymbols(Map<String, String> params) {
+        addFuzzyQuerySymbols(params, "searchStr");
+    }
+
+    /**
+     * 为模糊查询的添加增加%%符号
+     * @param params 查询map
+     * @param paramName 参数名称
+     */
+    public static void addFuzzyQuerySymbols(Map<String, String> params, String paramName) {
+        if (!StringUtils.isEmpty(params.get(paramName))) {
+            params.put(paramName, "%" + params.get(paramName) + "%");
+        }
+    }
+
+    /**
+     * 擦除泛型，同时将分页参数转化为Integer类型
+     * @param params 参数map
+     * @return 擦除泛型后的参数map
+     */
+    public static Map<String, Object> formatPageParams(Map params) {
+        Map map = params;
+        //获取分页参数的起始位置
+        Integer start = StringUtils.isEmpty(params.get("start")) ? 0 : Integer.valueOf((String)params.get("start"));
+        map.put("start", start);
+
+        //获取分页参数的每页条数
+        Integer length = StringUtils.isEmpty(params.get("length")) ? 10 : Integer.valueOf((String)params.get("length"));
+        map.put("length", length);
+
+        return map;
     }
 }

@@ -7,14 +7,23 @@
         <id column="guid" property="guid" />
         <result column="username" property="username" />
         <result column="password" property="password" />
-        <result column="department" property="department" />
+        <result column="department" property="department.id" />
+        <result column="dept_name" property="department.name" />
+        <result column="parent_id" property="department.parentId" />
+        <result column="department_remark" property="department.departmentRemark" />
+        <result column="owner" property="department.owner" />
+        <result column="department_tel" property="department.departmentTel" />
+        <result column="tree_path" property="department.treePath" />
+        <result column="dept_status" property="department.status" />
         <result column="name" property="name" />
+        <result column="authentication_method" property="authenticationMethod" />
         <result column="visible" property="visible" />
         <result column="email" property="email" />
         <result column="phone" property="phone" />
         <result column="address" property="address" />
         <result column="status" property="status" />
         <result column="skin" property="skin" />
+        <result column="last_login_time" property="lastLoginTime" />
         <result column="error_login_count" property="errorLoginCount" />
         <result column="error_login_last_time" property="errorLoginLastTime" />
         <result column="create_time" property="createTime" />
@@ -22,14 +31,63 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        guid, username, password, department, name, visible, email, phone, address, status, skin, error_login_count, error_login_last_time, create_time
+        guid, username, password, department, u.name, authentication_method, visible, email, phone, address, u.status, skin, last_login_time, error_login_count, error_login_last_time, create_time
+    </sql>
+
+    <sql id="department_Column_List">
+        id, d.name dept_name, parent_id, department_remark, owner, department_tel, tree_path, u.status dept_status
     </sql>
 
     <select id="findUserByGuid" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"></include>
-        FROM t_user
+        ,
+        <include refid="department_Column_List"></include>
+        FROM t_user u
+        LEFT JOIN t_department d
+        ON u.department = d.id
         WHERE guid = #{value}
+    </select>
+
+    <select id="countUsersInPage" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM t_user u
+        LEFT JOIN t_department d
+        ON u.department = d.id
+        <where>
+            <if test="searchStr != null">
+                AND ( u.name LIKE #{searchStr} OR guid LIKE #{searchStr})
+            </if>
+            <if test="startTime != null">
+                AND create_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND create_time &lt; #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="getUsersInPage" parameterType="map" resultType="com.goldencis.osa.core.entity.User">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        ,
+        <include refid="department_Column_List"></include>
+        FROM t_user u
+        LEFT JOIN t_department d
+        ON u.department = d.id
+        <where>
+            <if test="searchStr != null">
+                AND ( u.name LIKE #{searchStr} OR guid LIKE #{searchStr})
+            </if>
+            <if test="startTime != null">
+                AND create_time &gt; #{startTime}
+            </if>
+            <if test="endTime != null">
+                AND create_time &lt; #{endTime}
+            </if>
+        </where>
+        ORDER BY create_time DESC
+        limit #{start} , #{length}
     </select>
 
 </mapper>

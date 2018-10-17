@@ -13,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -56,12 +57,29 @@ public class User extends Model<User> {
     /**
      * 所属部门
      */
-    private Integer department;
+//    private Integer department;
+
+    /**
+     * 所属部门
+     */
+    @TableField(exist = false)
+    private Department department;
 
     /**
      * 姓名
      */
     private String name;
+
+    /**
+     * 角色集合
+     */
+    @TableField(exist = false)
+    private List<Role> roles;
+
+    /**
+     * 认证方式：1为密码，2为密码+APP口令，3为密码+动态令牌，4为密码+短信平台，5为密码+第三方USBKEY，6为密码+OTP自写证书认证
+     */
+    private Integer authenticationMethod;
 
     /**
      * 是否可见
@@ -88,7 +106,16 @@ public class User extends Model<User> {
      */
     private Integer status;
 
+    /**
+     * 外观样式
+     */
     private String skin;
+
+    /**
+     * 最后一次正常登录时间
+     */
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime lastLoginTime;
 
     /**
      * 错误登录次数
@@ -103,7 +130,6 @@ public class User extends Model<User> {
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
-
 
     @Override
     protected Serializable pkVal() {

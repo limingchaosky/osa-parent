@@ -5,7 +5,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.goldencis.osa.common.entity.ResultMsg;
 import com.goldencis.osa.core.constants.ConstantsDto;
+import com.goldencis.osa.core.entity.Department;
+import com.goldencis.osa.core.entity.Role;
 import com.goldencis.osa.core.entity.User;
+import com.goldencis.osa.core.service.IDepartmentService;
+import com.goldencis.osa.core.service.IRoleService;
 import com.goldencis.osa.core.service.IUserService;
 import com.goldencis.osa.core.utils.QueryUtils;
 import io.swagger.annotations.Api;
@@ -17,8 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * <p>
@@ -38,6 +42,12 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IRoleService roleService;
+
+    @Autowired
+    private IDepartmentService departmentService;
+
     @ApiOperation("获取用户分页列表")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "start", value = "起始条数", dataType = "Integer"),
@@ -54,11 +64,13 @@ public class UserController {
             //获取分页参数
             IPage<User> page = QueryUtils.paresParams2Page(params);
 
-            //解析参数，封装查询包装类
+            /*//解析参数，封装查询包装类
             QueryWrapper<User> wrapper = userService.parseParams2QueryWapper(params);
+            //分页查询
+            userService.page(page, wrapper);*/
 
             //分页查询
-            userService.page(page, wrapper);
+            userService.getUsersInPage(page, params);
             return ResultMsg.ok(page);
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,7 +85,15 @@ public class UserController {
     public ResultMsg findUserByGuid(@PathVariable("guid") String guid) {
 
         try {
+            //查询用户信息
             User user = userService.findUserByGuid(guid);
+
+            //查询关联角色集合
+            List<Role> roleList = roleService.getRoleListByUserguid(guid);
+            user.setRoles(roleList);
+
+//            Department department = departmentService.getById(user.getDepartment());
+//            user.setDept(department);
             return ResultMsg.ok(user);
         } catch (Exception e) {
             e.printStackTrace();
