@@ -1,10 +1,13 @@
 package com.goldencis.osa.core.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.io.Serializable;
+import java.util.List;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -39,7 +42,7 @@ public class Department extends Model<Department> {
     /**
      * 父级部门Id
      */
-    private Integer parentId;
+    private Integer pid;
 
     /**
      * 备注信息
@@ -62,9 +65,17 @@ public class Department extends Model<Department> {
     private String treePath;
 
     /**
+     * 节点层级
+     */
+    private Integer level;
+
+    /**
      * 状态
      */
     private Integer status;
+
+    @TableField(exist = false)
+    private List<Department> childDepartments;
 
 
     @Override

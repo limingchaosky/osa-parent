@@ -71,6 +71,11 @@ public class UserController {
 
             //分页查询
             userService.getUsersInPage(page, params);
+//            ResultMsg resultMsg = new ResultMsg();
+//            resultMsg.setResultCode(ConstantsDto.RESPONSE_SUCCESS);
+//            resultMsg.setTotal((int)page.getTotal());
+//            resultMsg.setRows(page.getRecords());
+//            return resultMsg;
             return ResultMsg.ok(page);
         } catch (Exception e) {
             e.printStackTrace();
@@ -167,6 +172,14 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResultMsg.build(ConstantsDto.RESPONSE_ERROR, e.getMessage());
+        }
+    }
+
+    @ModelAttribute
+    public void getModel(@RequestParam(value = "guid", required = false) Integer guid, Map<String, Object> map) {
+        if (guid != null) {
+            User user = userService.getById(guid);
+            map.put("user", user);
         }
     }
 }
