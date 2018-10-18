@@ -1,4 +1,4 @@
-@import "./gd_variables";
+@import './gd_variables';
 .gd-datepicker {
     display: inline-block;
     vertical-align: middle;
@@ -18,16 +18,16 @@
     .gd-datepanel,
     .gd-date-range-box {
         position: fixed;
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20);
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
         transform-origin: center 0;
         &.gd-datepanel-drop-top {
             transform-origin: center bottom;
         }
         &.gd-datepanel-drop-enter-active {
-            animation: gdDatePanelShow .1s;
+            animation: gdDatePanelShow 0.1s both;
         }
         &.gd-datepanel-drop-leave-active {
-            animation: gdDatePanelHide .1s;
+            animation: gdDatePanelHide 0.1s both;
         }
     }
 }
@@ -38,7 +38,7 @@
     width: 196px;
     padding: 20px;
     user-select: none;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     border-radius: 2px;
     .gd-datepanel-navbar {
         overflow: hidden;
@@ -46,7 +46,7 @@
             color: @iconColor;
         }
         .gd-datepanel-navtext {
-            width: calc(~"50% - 56px");
+            width: calc(~'50% - 56px');
             font-weight: bold;
         }
     }
@@ -60,11 +60,11 @@
     .gd-datepanel-day,
     .gd-datepanel-navbtn,
     .gd-datepanel-navtext {
-        width: calc(~"100% / 7")
+        width: calc(~'100% / 7');
     }
     .gd-datepanel-month,
     .gd-datepanel-year {
-        width: calc(~"100% / 3")
+        width: calc(~'100% / 3');
     }
     .gd-datepanel-daylabel,
     .gd-datepanel-day,
@@ -88,10 +88,10 @@
         &:hover {
             background-color: @grayColor8;
         }
-        &[disabled=disabled] {
+        &[disabled='disabled'] {
             cursor: not-allowed;
-            color: @grayColor5  !important;
-            background-color: @grayColor8  !important;
+            color: @grayColor5 !important;
+            background-color: @grayColor8 !important;
         }
     }
     .gd-datepanel-daylabel,
@@ -128,12 +128,12 @@
         }
     }
     .gd-date-disabled {
-        background-color: @grayColor8  !important;
-        color: @grayColor4  !important;
+        background-color: @grayColor8 !important;
+        color: @grayColor4 !important;
         cursor: not-allowed;
     }
     .gd-date-active {
-        background-color: @primaryColor  !important;
+        background-color: @primaryColor !important;
         color: white !important;
     }
 }
@@ -143,13 +143,13 @@
     overflow: hidden;
     padding: 20px;
     background-color: white;
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     border-radius: 2px;
     .gd-datepanel-box {
         white-space: nowrap;
         font-size: 0;
         &:after {
-            content: " ";
+            content: ' ';
             clear: both;
             display: block;
         }

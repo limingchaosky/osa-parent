@@ -1,4 +1,4 @@
-@import "./gd_variables";
+@import './gd_variables';
 .gd-timepicker {
     display: inline-block;
     vertical-align: middle;
@@ -14,7 +14,7 @@
     }
     .gd-timeruler {
         position: fixed;
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20);
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
     }
 }
 
@@ -41,14 +41,14 @@
         height: 100%;
         position: relative;
         &:after {
-            content: " ";
+            content: ' ';
             background-color: @bgColor4;
             width: 1px;
             height: 50%;
             position: absolute;
             right: 0;
             top: 50%;
-            transform: translateY(-50%)
+            transform: translateY(-50%);
         }
         &:last-child {
             &:after {
@@ -57,7 +57,7 @@
         }
     }
     &:after {
-        content: " ";
+        content: ' ';
         display: inline-block;
         height: 100%;
         vertical-align: middle;
@@ -119,10 +119,10 @@
         transform-origin: center bottom;
     }
     &.gd-timeruler-drop-enter-active {
-        animation: gdTimeRulerShow .1s;
+        animation: gdTimeRulerShow 0.1s both;
     }
     &.gd-timeruler-drop-leave-active {
-        animation: gdTimeRulerHide .1s;
+        animation: gdTimeRulerHide 0.1s both;
     }
 }
 

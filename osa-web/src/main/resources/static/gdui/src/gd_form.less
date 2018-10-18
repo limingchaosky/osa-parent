@@ -1,11 +1,11 @@
-@import "./gd_variables";
+@import './gd_variables';
 //input
 .gd-input,
 .gd-iconinput input {
     width: 200px;
     height: 32px;
     box-sizing: border-box;
-    transition: border-color .3s, box-shadow .3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
     outline: none;
     border: @grayColor6 1px solid;
     border-radius: 2px;
@@ -15,7 +15,7 @@
     &:focus {
         border-color: @primaryColor;
         box-shadow: 0 0 1px @primaryColor;
-        &:focus~i {
+        &:focus ~ i {
             color: @primaryColor;
         }
     }
@@ -23,9 +23,9 @@
         width: 380px;
     }
     &.gd-input-error {
-        border: 1px solid @errorColor  !important;
+        border: 1px solid @errorColor !important;
         &:focus {
-            box-shadow: 0 0 1px @errorColor  !important;
+            box-shadow: 0 0 1px @errorColor !important;
         }
     }
     &:disabled {
@@ -54,7 +54,7 @@
         transform: translateY(-50%);
         cursor: pointer;
         color: @iconColor;
-        transition: color .3s;
+        transition: color 0.3s;
         &:hover {
             color: @primaryColor;
         }
@@ -63,7 +63,7 @@
 
 .gd-textarea {
     box-sizing: border-box;
-    transition: border-color .3s, box-shadow .3s;
+    transition: border-color 0.3s, box-shadow 0.3s;
     outline: none;
     border: @grayColor6 1px solid;
     border-radius: 2px;
@@ -81,7 +81,7 @@
         width: 380px;
     }
     &.gd-textarea-error {
-        border-color: @errorColor ;
+        border-color: @errorColor;
         &:focus {
             box-shadow: 0 0 1px @errorColor;
         }
@@ -99,7 +99,7 @@
     position: relative;
     input {
         display: none;
-        &+i {
+        & + i {
             display: block;
             float: left;
             width: 14px;
@@ -111,7 +111,7 @@
             border: 1px solid @grayColor5;
             border-radius: 50%;
             transition-property: border, opacity, transform;
-            transition-duration: .2s;
+            transition-duration: 0.2s;
             margin-right: 5px;
             cursor: pointer;
             &:after {
@@ -121,31 +121,31 @@
                 left: 3px;
                 top: 3px;
                 display: table;
-                content: " ";
+                content: ' ';
                 background: @primaryColor;
                 opacity: 0;
                 transform: scale(0);
                 border-radius: 50%;
                 transition-property: border, opacity, transform;
-                transition-duration: .2s;
+                transition-duration: 0.2s;
             }
             &:hover {
                 border: 1px solid @primaryColor;
             }
         }
         &:checked {
-            &+i {
+            & + i {
                 border: 1px solid @primaryColor;
                 &::after {
                     opacity: 1;
                     transform: scale(1);
                     transition-property: border, opacity, transform;
-                    transition-duration: .2s;
+                    transition-duration: 0.2s;
                 }
             }
         }
         &[disabled] {
-            &+i {
+            & + i {
                 border-color: @grayColor6;
                 background-color: @grayColor8;
                 cursor: not-allowed;
@@ -166,36 +166,36 @@
     text-align: left;
     input {
         display: none;
-        &[disabled]+i {
+        &[disabled] + i {
             cursor: not-allowed;
         }
-        &[disabled]+i:before {
-            opacity: .4;
+        &[disabled] + i:before {
+            opacity: 0.4;
             background: @grayColor6;
             cursor: not-allowed;
         }
-        &[disabled]+i:after {
-            opacity: .4;
+        &[disabled] + i:after {
+            opacity: 0.4;
             background: @bgColor4;
         }
-        &:checked+i:before {
+        &:checked + i:before {
             border-color: @primaryColor;
             box-shadow: @primaryColor 0 0 0 16px inset;
             background-color: @primaryColor;
-            transition: background-color .4s;
+            transition: background-color 0.4s;
         }
-        &:checked[disabled]+i:before {
+        &:checked[disabled] + i:before {
             border-color: @primaryColor;
             box-shadow: @primaryColor 0 0 0 16px inset;
             background-color: @primaryColor;
-            transition: background-color .4s;
-            opacity: .4;
+            transition: background-color 0.4s;
+            opacity: 0.4;
         }
-        &:checked[disabled]+i:after {
-            opacity: .4;
+        &:checked[disabled] + i:after {
+            opacity: 0.4;
             background: @bgColor4;
         }
-        &:checked+i:after {
+        &:checked + i:after {
             left: 16px;
         }
     }
@@ -218,7 +218,7 @@
             vertical-align: top;
             box-sizing: content-box;
             box-shadow: @grayColor7 0 0 0 0 inset;
-            transition: border .4s, background-color .4s;
+            transition: border 0.4s, background-color 0.4s;
             background-clip: content-box;
         }
         &:after {
@@ -230,8 +230,8 @@
             left: 2px;
             border-radius: 100%;
             background-color: @bgColor4;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, .4);
-            transition: left .2s;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+            transition: left 0.2s;
         }
     }
 }
@@ -244,7 +244,7 @@
     user-select: none;
     height: 16px;
     line-height: 16px;
-    input~i {
+    input ~ i {
         display: block;
         float: left;
         width: 14px;
@@ -256,7 +256,7 @@
         border-collapse: separate;
         border-radius: 2px;
         background-color: @bgColor4;
-        transition: border-color .2s, background-color .2s, box-shadow .2s;
+        transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
         margin-right: 10px;
         cursor: pointer;
         &:hover {
@@ -265,8 +265,8 @@
     }
     input {
         display: none;
-        &[type=checkbox]+i:after {
-            content: "";
+        &[type='checkbox'] + i:after {
+            content: '';
             display: table;
             width: 4px;
             height: 8px;
@@ -277,40 +277,40 @@
             border-top: 0;
             border-left: 0;
             transform: rotate(45deg) scale(1);
-            transition: all .2s;
+            transition: all 0.2s;
         }
-        &[type=checkbox]:checked.js-not-all+i {
+        &[type='checkbox']:checked.js-not-all + i {
             border-color: @primaryColor;
-            opacity: .4;
+            opacity: 0.4;
             background: @primaryColor;
         }
-        &[type=checkbox]:checked+i {
+        &[type='checkbox']:checked + i {
             border-color: @primaryColor;
             background-color: @primaryColor;
             &::after {
                 display: table;
             }
         }
-        &[type=checkbox][disabled]+i {
+        &[type='checkbox'][disabled] + i {
             border-color: @grayColor6;
             background-color: @grayColor8;
             cursor: not-allowed;
         }
-        &[type=checkbox][disabled]+i:after {
+        &[type='checkbox'][disabled] + i:after {
             animation-name: none;
             border-color: @grayColor8;
         }
-        &[type=checkbox]:checked[disabled]+i {
+        &[type='checkbox']:checked[disabled] + i {
             background-color: @grayColor8;
             border-color: @grayColor6;
         }
-        &[type=checkbox]:checked[disabled]+i:after {
+        &[type='checkbox']:checked[disabled] + i:after {
             animation-name: none;
             border-color: @grayColor6;
         }
     } // 半选状态
     & .gd-checkbox-half {
-        & input[type=checkbox]+i:after {
+        & input[type='checkbox'] + i:after {
             content: '';
             width: 8px;
             height: 8px;
@@ -324,21 +324,21 @@
             transition: all 0s;
         }
         &:hover {
-            >i {
+            > i {
                 border-color: @primaryColor;
             }
         }
-        &>i {
+        & > i {
             background-color: @bgColor4;
             border-color: @primaryColor;
         }
-        &>input[disabled] {
-            &+i {
+        & > input[disabled] {
+            & + i {
                 background-color: @grayColor7;
                 border-color: @grayColor5;
-                opacity: .4;
+                opacity: 0.4;
             }
-            &+i:after {
+            & + i:after {
                 border-color: @grayColor5;
             }
         }
@@ -380,7 +380,7 @@
     }
     .gd-select-drop {
         background: @bgColor4;
-        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.20);
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
         border-radius: 2px;
         overflow: hidden;
         position: fixed;
@@ -393,7 +393,7 @@
         }
         .gd-option {
             cursor: pointer;
-            transition: background-color .3s;
+            transition: background-color 0.3s;
             box-sizing: border-box;
             padding: 8px 10px;
             white-space: nowrap;
@@ -417,10 +417,10 @@
         }
     }
     .gd-drop-enter-active {
-        animation: gdSelectShow .1s;
+        animation: gdSelectShow 0.1s both;
     }
     .gd-drop-leave-active {
-        animation: gdSelectHide .1s;
+        animation: gdSelectHide 0.1s both;
     }
 }
 

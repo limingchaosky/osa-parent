@@ -10,15 +10,9 @@
 
 <body>
     <!-- 此处是整体框架用，包括侧边栏和顶部 -->
-    <div id="framework" v-cloak>
-        <gd-leftmenu :config="leftMenuConfig"></gd-leftmenu>
-        <gd-topbar :config="topbarConfig">
-            <button title="如果满足不了你，在这自由发挥吧~" class="gd-btn">自定义控件</button>
-        </gd-topbar>
-    </div>
+    <div th:replace="common/topLeft :: topleftbar"></div>
+
     <div id="app" class="gd-right-content gd-padding-lg" v-cloak>
-        <p>说明：组件库依赖jquery与vue,另外只需引入样式文件gdui.min.css与js文件gdui.min.js即可。</p>
-        <p>关于项目的整体结构，推荐如下：</p>
         <textarea type="code">
             <body>
                 <!-- 此处是整体框架，包括侧边栏和顶部,这一部分可以单独作为一个vue实例，写在公共文件中 -->
@@ -28,7 +22,7 @@
                 </div>
                 <!-- 此处页面内容区，这一部分可以是另一个vue实例，处理具体业务 -->
                 <div id="app" class="gd-right-content" v-cloak>
-                    Hello,Golencis!
+                    Hello,Goledddaaaaaaaaaaaaaaaaaaaaaaaaaaancis!
                 </div>
             </body>
         </textarea>

@@ -4,16 +4,10 @@
  * 些文件中做一些全局性的操作
  */
 $(function () {
-    renderCode();
     if ($('#framework').length > 0) {
+        console.log('dsfaaa');
         renderFramework();
     }
-    // $(document).bind('DOMNodeInserted', function(e) {
-    //     console.log(66);
-    // });
-    // $('#app').on('click', function(e) {
-    //     console.log(66);
-    // });
 });
 //渲染框架
 function renderFramework() {
@@ -92,22 +86,6 @@ function renderFramework() {
             }]
         }
     });
-}
-//渲染代码
-function renderCode() {
-    var convert = document.createElement('div');
-    var pre = '';
-    $('textarea[type="code"]').each(function (_, el) {
-        convert.textContent = el.value;
-        var html = convert.innerHTML;
-        var whiteSpace = html.match(/^\s+/);
-        if (whiteSpace.length > 0) {
-            html = html.replace(new RegExp('\n' + whiteSpace[0], 'g'), '\n').trim();
-        }
-        pre = '<pre class="line-numbers"><code class="' + (el.className || 'language-html') + '">' + html + '</code></pre>';
-        $(el).replaceWith(pre);
-    });
-    Prism.highlightAll();
 }
 
 /**配置全局ajax */

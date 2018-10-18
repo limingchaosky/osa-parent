@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <script src="/js/resource.js"></script> -->
+    <!-- <link rel="stylesheet" href="/css/table.css"> -->
+    <link rel="stylesheet" th:href="@{/gdui/css/gdui.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/validate.css}" />
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <!-- <link rel="stylesheet" th:href="@{/css/gd_common.css}" /> -->
+
+    <script th:src="@{/js/jquery.min.js}"></script>
+</head>
+
+<body>
+    <!-- 此处是整体框架用，包括侧边栏和顶部 -->
+    <div th:replace="common/topLeft :: topleftbar"></div>
+    <div class="gd-right-content">
+        <div class="contentL" id="departmentBox">
+            <gd-tree :config='treeConfig' class="gd-tree-gray" id="departmentTree"></gd-tree>
+        </div>
+        <div class="contentR">
+            <div id="userlist" v-cloak>
+                <gd-toolbar :config="toolbarConfig">
+                    <gd-select value="" placeholder="请选择" checkbox @change="change">
+                        <gd-option value="state">状态</gd-option>
+                        <gd-option value="userName">用户名</gd-option>
+                        <gd-option value="trueName">姓名</gd-option>
+                        <gd-option value="userGroup">用户组</gd-option>
+                        <gd-option value="department">角色</gd-option>
+                        <gd-option value="type">认证方式</gd-option>
+                        <gd-option value="time">最近登录时间</gd-option>
+                        <gd-option value="operate">操作</gd-option>
+                    </gd-select>
+                </gd-toolbar>
+                <div style="visibility: hidden;position: fixed;z-index: -1;">
+                    <div id="tree_box" class="tree-box" style="width: 240px;max-height: 300px">
+                        <gd-tree :config='treeConfig'></gd-tree>
+                    </div>
+                </div>
+                <div class="table-box">
+                    <gd-table :config="tableConfig"></gd-table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="addUserBox" style="display:none">
+        <form id="validate_demo" class="container">
+            <div class="row">
+                <label class="gd-label-required">用户名</label>
+                <input type="text" class="gd-input" gd-validate="required">
+            </div>
+            <div class="row">
+                <label>初始密码</label>
+                <input type="text" class="gd-input" gd-validate="exceptSpecialChar">
+            </div>
+            <div class="row">
+                <label class="gd-label-required">密码</label>
+                <input id="pw" type="password" class="gd-input" gd-validate="required">
+            </div>
+            <div class="row">
+                <label class="gd-label-required">确认密码</label>
+                <input type="password" class="gd-input" gd-validate="required equalTo" gdv-equal="pw">
+            </div>
+            <div class="row">
+                <label>认证方式</label>
+                <input type="password" class="gd-input" gd-validate="equalTo" gdv-equal="pw">
+            </div>
+            <div class="row">
+                <label class="gd-label-required">姓名</label>
+                <input type="password" class="gd-input" gd-validate="equalTo" gdv-equal="pw">
+            </div>
+            <div class="row">
+                <label class="gd-label-required">用户组</label>
+                <input type="password" class="gd-input" gd-validate="equalTo" gdv-equal="pw">
+            </div>
+            <div class="row">
+                <label>角色</label>
+                <input type="password" class="gd-input" gd-validate="equalTo" gdv-equal="pw">
+            </div>
+            <div class="row">
+                <label>用户策略</label>
+                <input type="password" class="gd-input" gd-validate="equalTo" gdv-equal="pw">
+            </div>
+            <div class="row">
+                <label>状态</label>
+                <input type="password" class="gd-input" gd-validate="equalTo" gdv-equal="pw">
+            </div>
+            <div class="row">
+                <label>电话</label>
+                <input type="text" class="gd-input" gd-validate="phone">
+            </div>
+            <div class="row">
+                <label>邮箱</label>
+                <input type="text" class="gd-input" gd-validate="email">
+            </div>
+        </form>
+    </div>
+
+    <script th:src="@{/js/vue.min.js}"></script>
+    <script th:src="@{/gdui/js/gdui.min.js}"></script>
+    <script th:src="@{/js/global.js}"></script>
+
+    <script>
+        var departmentBox = new Vue({
+            el: '#depa rtmentBox',
+            data: {
+                treeConfig: {
+                    id: 'departmentTree',//树的id，用于提供API
+                    simpleData: true,//简单模式，默认为true
+                    showCheckBox: true,//默认是false;显示checkbox
+                    linkable: false,//默认是true 父子联动
+                    accordion: true,//手风琴效果，默认是false
+                    data: [{
+                        id: "Resource",//必须数据段 节点ID
+                        name: "资源",//必须数据段 节点名称
+                        level: "0",//必须数据段 节点层级,必须从0开始
+                        pId: null,//必须数据段 且顶级父节点的pId必须为null
+                        expand: true,//是否展开子节点
+                        disabled: true,//禁掉 checkbox  和 不能select
+                        icon: "icon-notice",// 默认的icon是文件夹形式，可以自定义
+                        selected: true,//是否选中子节点文本
+                        checked: true //是否勾选(如果勾选，子节点也会全部勾选)
+                    },{
+                        id: "Resource",//必须数据段 节点ID
+                        name: "资源1111",//必须数据段 节点名称
+                        level: "0",//必须数据段 节点层级,必须从0开始
+                        pId: null,//必须数据段 且顶级父节点的pId必须为null
+                        expand: true,//是否展开子节点
+                        disabled: true,//禁掉 checkbox  和 不能select
+                        icon: "icon-notice",// 默认的icon是文件夹形式，可以自定义
+                        selected: true,//是否选中子节点文本
+                                                                                                          checked: true //是否勾选(如果勾选，子节点也会全部勾选)
+                    }],
+                    onSelect: function (node) {// 点击树节点时触发 返回点击选中的节点数据
+                        console.log(node);
+                    },
+                    onChange: function (nodes) {// 点击复选框时触发  返回所有选中复选框的数据
+                        console.log(nodes);
+                    },
+                    ready: function (data) {//树的数据改变后，dom渲 染完成后触发，data为树的数据
+                        log(data)
+                    }
+                }
+            }
+        })
+
+        var userlist = new Vue({
+            el: '#userlist',
+            methods: {
+                change: function (data) {
+                    log(data)
+                    gd.table('demoTable').showColumns(data.value.split(';'))
+                }
+            },
+            data: {
+                //工具栏配置
+                toolbarConfig: [
+                    {
+                        type: 'button',
+                        icon: 'icon-add',
+                        title: '添加',
+                        action: function () {
+                            var dom = gd.showLayer({
+                                id: 'addBox',
+                                title: '新建用户',
+                                content: $('#addUserBox').html(),
+                                size: [550, 680],
+                                //autoFocus:true,
+                                btn: [
+                                    {
+                                        text: '确定',
+                                        enter: true,//响应回车
+                                        action: function (dom) {//参数为当前窗口dom对象
+                                            var validate = gd.validate('#validate_demo', {
+                                                autoPlaceholer: true,
+                                                rules: []
+                                            });
+                                            var result = validate.valid();
+                                            if(result){
+                                                dom.close();//或gd.closeLayer(dom);
+                                                gd.showWarning('手动关闭了弹窗');
+                                            }else{
+                                                return false
+                                            }
+                                        }
+                                    }, {
+                                        text: '取消',
+                                        action: function () {
+                                            gd.showSuccess('你点了取消');
+                                        }
+                                    }
+                                ],
+                                success: function (dom) {//参数为当前窗口dom对象
+                                    gd.showSuccess('窗口打开了');
+                                    // dom.setContent('设置弹窗的内容');
+                                },
+                                end: function (dom) {//参数为当前窗口dom对象
+                                    gd.showSuccess('窗口关闭了');
+                                }
+                            });
+                        }
+                    },
+                    {
+                        type: 'button',
+                        icon: 'icon-import',
+                        title: '导入',
+                        action: function () {
+                            gd.showSuccess('导入');
+                        }
+                    },
+                    {
+                        type: 'button',
+                        icon: 'icon-export',
+                        title: "导出",
+                        action: function () {
+                            gd.showSuccess('导出');
+                        }
+                    },
+                    {
+                        type: 'button',
+                        icon: 'icon-delete',
+                        title: '删除',
+                        action: function () {
+                            gd.showSuccess('删除');
+                        }
+                    }
+                ],
+                //表格配置
+                tableConfig: {
+                    id: 'demoTable',//给table一个id,调用gd.tableReload('demoTable');可重新加载表格数据并保持当前页码，gd.tableReload('demoTable'，1)，第二个参数可在加载数据时指定页码
+                    length: 50, //每页多少条,默认50，可选
+                    curPage: 1, //当前页码，默认1，可选
+                    lengthMenu: [10, 30, 50, 100], //可选择每页多少条，默认[10, 30, 50, 100]，可选
+                    enableJumpPage: false, //启用跳页，默认false，可选
+                    enableLengthMenu: true, //启用可选择每页多少条，默认true，可选
+                    enablePaging: true,//启用分页,默认true，可选
+                    orderColumn: 'ip',//排序列
+                    orderType: 'desc',//排序规则，desc或asc,默认desc
+                    columnResize: true, //启用列宽调，默认true，可选
+                    //showFooter: false,//显示footer,默认为true
+                    //lazy: true,//懒加载数据，调用gd.table('id').reload()对表格数据进行加载,默认为false
+                    //loading: true,//显示loading,默认为false
+                    ajax: {
+                        //其它ajax参数同jquery
+                        url: baseUrl + '/user/getUsersInPage',
+                        //改变从服务器返回的数据给table
+                        dataSrc: function (data) {
+                            data.rows = data.rows.map(function (obj) {
+                                return [
+                                    obj.guid,
+                                    obj.username,
+                                    obj.name,
+//                                    obj.department,
+//                                    obj.status,
+//                                    obj.lastLoginTime
+                                ]
+                            });
+                            return data;
+                        },
+                        //请求参数
+                        data: {
+                            startTime: '2018-04-02',
+                            searchStr: '1'
+                        }
+                    },
+                    columns: [
+                        {
+                            name: 'checkbox',
+                            type: 'checkbox',
+                            //single: true,//checkbox只允许选单个
+                            width: '60', //列宽
+                            //class: 'xxx',//加入自定义类
+                            align: 'center',//对齐方式，默认left，与class不同，class只影响内容，align会影响内容和表头
+                            disabled: function (cell, row, raw) {//禁用checkbox
+                                return Math.random() > 0.5;
+                            },
+                            checked: function (cell, row, raw) {//选中checkbox
+                                return Math.random() > 0.5;
+                            },
+                            change: function (checkedData, checkedRawData) {//复选框改变，触发事件，返回所有选中的列的数据,第1个参数为加工后的表格数据，第2个参数为未加工的表格数据
+                                log(checkedData)
+                                log(checkedRawData)
+                            }
+                        },
+                        {
+                            name: 'username',//本列如果有排序或高级搜索，必须要有name
+                            head: '用户名',
+                            orderable: true,//启用排序
+                            show: true,//是否展示该列，默认为true
+                            title: function (cell, row, raw) {//设置title，cell为本格数据，row为本行加工后的数据，raw为本行未加工的数据,也可以直接传一个true,将以cell作为title
+                                return cell
+                            },
+                            render: function (cell, row, raw) {//自定义表格内容
+                                return cell;
+                            }
+                        },
+                        {
+                            name: 'name',
+                            head: '姓名',
+                            orderable: true,
+                            //ellipsis: false，可以禁用text ellipsis,默认为true
+                            title: function (cell, row, raw) {//设置title，cell为本格数据，row为本行加工后的数据，raw为本行未加工的数据
+                                return cell
+                            }
+                        },
+                        /*{
+                            name: 'department',
+                            head: '所属部门',
+                            orderable: true,
+                            title: true,
+                            filters: '#tree_box',//如果是自定义内容，这里只能传入一个选择器
+                        },
+                        {
+                            name: 'status',
+                            head: '状态',
+                            orderable: true,
+                            align: 'center',
+                            filterName: 'device',//高级查询字段名，不写为name
+                            filters: [//设置检索条件
+                                {
+                                    label: '锁定',
+                                    value: '10',
+                                    checked: true//默认选中
+                                }, {
+                                    label: '正常',
+                                    value: '11'
+                                }, {
+                                    label: '停用',
+                                    value: '12'
+                                }
+                            ]
+                        },
+                        {
+                            name: "lastLoginTime",
+                            head: '最近登录时间',
+                        },*/
+                        {
+                            name: 'operate',
+                            head: '操作',
+                            align: 'center',
+                            width: 120,
+                            operates: [
+                                {
+                                    icon: 'icon-edit',
+                                    title: '编辑',//设置图标title
+                                    action: function (cell, row, raw) {//动作函数,cell为本格数据，row为本行加工后的数据，raw为本行未加工的数据
+                                        log(cell)
+                                        log(row)
+                                        log(raw)
+                                    }
+                                },
+                                {
+                                    icon: 'icon-pass',
+                                    title: '确认',
+                                    action: function (cell, row, raw) {
+
+                                    }
+                                },
+                                {
+                                    icon: 'icon-play',
+                                    text: '播放',
+                                    show: function (cell, row, raw) {//是否展示，可控制权限
+                                        return row[0] == 2;
+                                    },
+                                    action: function (cell, row, raw) {
+                                        log(cell)
+                                        log(row)
+                                        log(raw)
+                                    }
+                                },
+                                {
+                                    icon: 'icon-insulate',
+                                    text: '隔离',
+                                    disabled: function (cell, row, raw) {//是否禁用
+                                        return row[0] == 2;
+                                    },
+                                    action: function () {
+
+                                    }
+                                },
+                                {
+                                    icon: 'icon-locate',
+                                    text: '定位',
+                                    action: function () {
+
+                                    }
+                                },
+                                {
+                                    icon: 'icon-relation',
+                                    text: '关联',
+                                    action: function () {
+
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                treeConfig: {
+                    id: 'treeTest',//树的id，用于提供API
+                    showCheckBox: true,//默认是false;显示checkbox
+                    data: [{
+                        id: 1,
+                        name: '顶级部门',
+                        level: 1,
+                        pId: null,
+                        expend: true,
+                    }, {
+                        id: 2,
+                        name: '历下区技术研发部',
+                        level: 2,
+                        pId: 1,
+                        expend: true,
+                    }, {
+                        id: 3,
+                        name: '高新区技术研发部',
+                        level: 2,
+                        pId: 1,
+                        expend: true,
+                    }],
+                    onSelect: function (n) {// 点击树节点时触发 返回所有选中节点的数据
+                        console.log(n);
+                    },
+                    onChange: function (n) {// 点击复选框时触发  返回所有选中复选框的数据
+                        var ids = n.map(function (node) {
+                            return node.id
+                        });
+                        gd.table('demoTable').setFilterValue('department', ids.join(';'))
+                    }
+                },
+            }
+        });
+
+
+
+    </script>
+</body>
+
+</html>

@@ -2,16 +2,9 @@
  * 些文件中做一些全局性的操作
  */
 $(function() {
-    renderCode();
     if ($('#framework').length > 0) {
         renderFramework();
     }
-    // $(document).bind('DOMNodeInserted', function(e) {
-    //     console.log(66);
-    // });
-    // $('#app').on('click', function(e) {
-    //     console.log(66);
-    // });
 });
 //渲染框架
 function renderFramework() {
@@ -19,9 +12,9 @@ function renderFramework() {
         el: '#framework',
         data: {
             leftMenuConfig: {
-                api: './data/left_menu.json', //接口地址
+                api: baseUrl + '/data/left_menu.json', //接口地址
                 //data: menuData, //api和data二选一，data是菜单的json数据,如果同时定义，以data优先
-                logo: './images/tsa_menu_logo.png', //logo地址
+                logo: baseUrl+ '/images/osa_menu_logo.png', //logo地址
                 apiCallback: function(data) {
                     //回调函数可对接口数据进行加工，可选
                     return data;
@@ -97,27 +90,6 @@ function renderFramework() {
             ]
         }
     });
-}
-//渲染代码
-function renderCode() {
-    var convert = document.createElement('div');
-    var pre = '';
-    $('textarea[type="code"]').each(function(_, el) {
-        convert.textContent = el.value;
-        var html = convert.innerHTML;
-        var whiteSpace = html.match(/^\s+/);
-        if (whiteSpace.length > 0) {
-            html = html.replace(new RegExp('\n' + whiteSpace[0], 'g'), '\n').trim();
-        }
-        pre =
-            '<pre class="line-numbers"><code class="' +
-            (el.className || 'language-html') +
-            '">' +
-            html +
-            '</code></pre>';
-        $(el).replaceWith(pre);
-    });
-    Prism.highlightAll();
 }
 
 /**配置全局ajax */
