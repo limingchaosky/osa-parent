@@ -44,7 +44,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     @Transactional(readOnly = true)
     public User findUserByUserName(String username) {
-        User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
+        User user = userMapper.findUserByUsername(username);
+//        User user = userMapper.selectOne(new QueryWrapper<User>().eq("username", username));
         return user;
     }
 
@@ -110,12 +111,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     @Transactional(readOnly = true)
     public User getCurrentUser() {
-        String username = SecurityUtils.getCurrentUser();
-        if (!StringUtils.isEmpty(username)) {
-            User user = this.findUserByUserName(username);
-            return user;
-        }
-        return null;
+        return SecurityUtils.getCurrentUser();
     }
 
     @Override

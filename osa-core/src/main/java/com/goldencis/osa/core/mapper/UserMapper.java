@@ -36,4 +36,11 @@ public interface UserMapper extends BaseMapper<User> {
      * @return 用户集合
      */
     List<User> getUsersInPage(Map<String, Object> params);
+
+    /**
+     * 根据用户名查找用户
+     * @param username 用户名
+     * @return 用户对象
+     */
+    User findUserByUsername(String username);
 }

@@ -9,6 +9,7 @@ public class ConstantsDto {
     public static final Integer CONST_FALSE = 0;
     public static final Integer CONST_ERROR = -1;
 
+    public static final Integer RESPONSE_SUCCESS = 0;
     public static final Integer RESPONSE_ERROR = 500;
 
     //账户状态
