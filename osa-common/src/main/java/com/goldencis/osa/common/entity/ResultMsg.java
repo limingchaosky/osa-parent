@@ -1,5 +1,6 @@
 package com.goldencis.osa.common.entity;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,7 +14,7 @@ public class ResultMsg {
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
     // 响应业务状态
-    private Integer status;
+    private Integer resultCode;
 
     // 响应消息
     private String msg;
@@ -21,8 +22,32 @@ public class ResultMsg {
     // 响应中的数据
     private Object data;
 
-    public static ResultMsg build(Integer status, String msg, Object data) {
-        return new ResultMsg(status, msg, data);
+    // 分页查询时的总记录数
+    private Integer total;
+
+    // 分页查询时的记录
+    private Object rows;
+
+    public ResultMsg() {
+
+    }
+
+    public ResultMsg(Integer status, String msg, Object data) {
+        this.resultCode = status;
+        this.msg = msg;
+        this.data = data;
+    }
+
+    public ResultMsg(Object data) {
+        this.resultCode = 0;
+        this.msg = "success";
+        this.data = data;
+    }
+
+    public ResultMsg(Page page) {
+        this.resultCode = 0;
+        this.total = Math.toIntExact(page.getTotal());
+        this.rows = page.getRecords();
     }
 
     public static ResultMsg ok(Object data) {
@@ -33,24 +58,16 @@ public class ResultMsg {
         return new ResultMsg(null);
     }
 
-    public ResultMsg() {
-
+    public static ResultMsg build(Integer status, String msg, Object data) {
+        return new ResultMsg(status, msg, data);
     }
 
     public static ResultMsg build(Integer status, String msg) {
         return new ResultMsg(status, msg, null);
     }
 
-    public ResultMsg(Integer status, String msg, Object data) {
-        this.status = status;
-        this.msg = msg;
-        this.data = data;
-    }
-
-    public ResultMsg(Object data) {
-        this.status = 200;
-        this.msg = "OK";
-        this.data = data;
+    public static ResultMsg page(Page page) {
+        return new ResultMsg(page);
     }
 
 //    public Boolean isOK() {
@@ -58,11 +75,11 @@ public class ResultMsg {
 //    }
 
     public Integer getStatus() {
-        return status;
+        return resultCode;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setStatus(Integer resultCode) {
+        this.resultCode = resultCode;
     }
 
     public String getMsg() {
@@ -79,6 +96,23 @@ public class ResultMsg {
 
     public void setData(Object data) {
         this.data = data;
+    }
+
+    public Object getRows() {
+        return rows;
+    }
+
+    public void setRows(Object rows) {
+        this.rows = rows;
+    }
+
+
+    public Integer getTotal() {
+        return total;
+    }
+
+    public void setTotal(Integer total) {
+        this.total = total;
     }
 
     /**
